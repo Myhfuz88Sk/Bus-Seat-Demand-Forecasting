@@ -1,4 +1,4 @@
-# Bus-Seat-Demand-Forecasting
+# Bus-Seat-Demand-Forecasting(ML)
 Developed a machine learning model to forecast seat demand on bus routes up to 15 days in advance, using features like route, date, seasonality, and travel patterns.
 This project predicts seat demand on bus routes for a given journey date, source, and destination using machine learning.
 It includes a Flask backend API for predictions and an interactive frontend that displays results in real-time.

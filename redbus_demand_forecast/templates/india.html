@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian States</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            padding: 20px;
+        }
+
+        .animated-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(45deg, #FF5F6D, #FFC371);
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            margin-bottom: 20px; 
+        }
+        
+        .animated-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(45deg, #FFC371, #FF5F6D);
+        }
+
+        .animated-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .animated-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.4s ease-in-out;
+        }
+
+        .animated-btn:hover::before {
+            left: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+        }
+
+        .state-section {
+            margin-bottom: 50px;
+        }
+
+        .state-title {
+            color: white;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+
+        .districts-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .district-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .district-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .district-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .district-card:hover .district-image {
+            transform: scale(1.05);
+        }
+
+        .district-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .district-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .district-population {
+            color: #666;
+            font-size: 0.9rem;
+            background: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 1200px) {
+            .districts-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .districts-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .districts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .districts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+
+        .animated-btn {
+    display: inline-block;
+    padding: 10px 20px; /* Reduced padding */
+    font-size: 1rem; /* Reduced font size */
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    background: linear-gradient(45deg, #28dbff);
+    border-radius: 50px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); /* Reduced shadow */
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: none;
+    cursor: pointer;
+    margin: 5px; /* Reduced margin */
+}
+
+.animated-btn:hover {
+    transform: translateY(-3px); /* Reduced hover effect */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Reduced hover shadow */
+    background: linear-gradient(45deg, #57f7f4, #55cfff);
+}
+
+.animated-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.animated-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: left 0.4s ease-in-out;
+}
+
+.animated-btn:hover::before {
+    left: 100%;
+}
+    </style>
+</head>
+<body>
+    <div style="position: absolute; top: 20px; right: 20px; z-index: 10;">
+    <a href="/" class="animated-btn">Home</a>
+    <a href="index.html" class="animated-btn">Check AP/TS Dist</a>
+    <a href="state.html" class="animated-btn">Predict</a>
+  </div>
+    <div class="header">
+        <h1>🏛️ Indian States</h1>
+        <p>Explore all states with population data</p>
+    </div>
+
+    <div id="loading" class="loading">Loading state information...</div>
+    <div id="content"></div>
+
+    <script>
+        const indianStates = [
+            {
+                name: "Andhra Pradesh",
+                capital: "Amaravati",
+                population: "49,386,799",
+                landmark: "Tirupati Temple",
+                imageUrl: "https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcSEfK9HnCj1i9L8p-V8K3yXk-W4lG7h1r6zP_3ZJ_7X2nL0N5zD7h_B8_K9wWk6V9P_8L_6J_6K_6D8J_6"
+            },
+            {
+                name: "Arunachal Pradesh",
+                capital: "Itanagar",
+                population: "1,529,820",
+                landmark: "Tawang Monastery",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJ6d52o7y8Q1dE3n5X4W1H3mO7xP_4h7Q2w_5N3jK_4"
+            },
+            {
+                name: "Assam",
+                capital: "Dispur",
+                population: "35,606,535",
+                landmark: "Kaziranga National Park",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_4y1q6M_9m5Q_4v4L5f_8u8_4k_4d4_8g_9g"
+            },
+            {
+                name: "Bihar",
+                capital: "Patna",
+                population: "128,500,364",
+                landmark: "Mahabodhi Temple",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ-7d-8Q-9p-9e-9l-9u-9r-9v-9w-8y"
+            },
+            {
+                name: "Chhattisgarh",
+                capital: "Raipur",
+                population: "30,180,621",
+                landmark: "Chitrakote Falls",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_5f_6c_4w_3v_9k_9w_8s_4j_9n_8m_6v"
+            },
+            {
+                name: "Goa",
+                capital: "Panaji",
+                population: "1,539,951",
+                landmark: "Basilica of Bom Jesus",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_9w_8p_7h_6v_5k_4j_3d_2g_1f"
+            },
+            {
+                name: "Gujarat",
+                capital: "Gandhinagar",
+                population: "72,154,236",
+                landmark: "Statue of Unity",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-8p_7h_6v_5k_4j_3d_2g_1f_0e"
+            },
+            {
+                name: "Haryana",
+                capital: "Chandigarh",
+                population: "30,131,885",
+                landmark: "Sultanpur National Park",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6h-5g-4f-3e-2d-1c-0b-9z-8x"
+            },
+            {
+                name: "Himachal Pradesh",
+                capital: "Shimla",
+                population: "7,645,841",
+                landmark: "Rohtang Pass",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-5f_6d_4c_3b_2a_1z_0y_9x"
+            },
+            {
+                name: "Jammu and Kashmir",
+                capital: "Srinagar (Summer), Jammu (Winter)",
+                population: "13,636,897",
+                landmark: "Dal Lake",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_4d_5c_6b_7a_8z_9y_0x"
+            },
+            {
+                name: "Jharkhand",
+                capital: "Ranchi",
+                population: "38,593,948",
+                landmark: "Dassam Falls",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-3v-4c-5d-6e-7f-8g-9h_0i"
+            },
+            {
+                name: "Karnataka",
+                capital: "Bengaluru",
+                population: "67,460,049",
+                landmark: "Hampi Monuments",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_2w_3x_4y_5z_6a_7b_8c_9d"
+            },
+            {
+                name: "Kerala",
+                capital: "Thiruvananthapuram",
+                population: "36,252,900",
+                landmark: "Backwaters",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_1x_2y_3z_4a_5b_6c_7d"
+            },
+            {
+                name: "Madhya Pradesh",
+                capital: "Bhopal",
+                population: "85,000,000",
+                landmark: "Khajuraho Group of Monuments",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_0v_1w_2x_3y_4z_5a_6b_7c"
+            },
+            {
+                name: "Maharashtra",
+                capital: "Mumbai",
+                population: "123,000,000",
+                landmark: "Gateway of India",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-9f-8e-7d-6c-5b-4a_3z"
+            },
+            {
+                name: "Manipur",
+                capital: "Imphal",
+                population: "3,260,000",
+                landmark: "Loktak Lake",
+                imageUrl: "https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcR4-0q4-L9Bv-jP9u-j-o_3j-4h-5g-6f-7e-8d"
+            },
+            {
+                name: "Meghalaya",
+                capital: "Shillong",
+                population: "3,356,864",
+                landmark: "Living Root Bridges",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-8u-7t-6s-5r-4q-3p-2o-1n"
+            },
+            {
+                name: "Mizoram",
+                capital: "Aizawl",
+                population: "1,273,830",
+                landmark: "Phawngpui Blue Mountain National Park",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_2u_3x_4y_5z_6a_7b_8c"
+            },
+            {
+                name: "Nagaland",
+                capital: "Kohima",
+                population: "2,249,695",
+                landmark: "Dzukou Valley",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_1x_2y_3z_4a_5b_6c_7d"
+            },
+            {
+                name: "Odisha",
+                capital: "Bhubaneswar",
+                population: "46,356,334",
+                landmark: "Konark Sun Temple",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_0v_1w_2x_3y_4z_5a_6b_7c"
+            },
+            {
+                name: "Punjab",
+                capital: "Chandigarh",
+                population: "30,950,560",
+                landmark: "Golden Temple",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-9f-8e-7d-6c-5b-4a_3z"
+            },
+            {
+                name: "Rajasthan",
+                capital: "Jaipur",
+                population: "81,032,689",
+                landmark: "Amer Fort",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_1x_2y_3z_4a_5b_6c_7d"
+            },
+            {
+                name: "Sikkim",
+                capital: "Gangtok",
+                population: "671,720",
+                landmark: "Gurudongmar Lake",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-3v-4c-5d-6e-7f-8g-9h_0i"
+            },
+            {
+                name: "Tamil Nadu",
+                capital: "Chennai",
+                population: "79,701,452",
+                landmark: "Meenakshi Amman Temple",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-2w-3x-4y-5z-6a-7b-8c"
+            },
+            {
+                name: "Telangana",
+                capital: "Hyderabad",
+                population: "38,510,982",
+                landmark: "Charminar",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-9f-8e-7d-6c-5b-4a_3z"
+            },
+            {
+                name: "Tripura",
+                capital: "Agartala",
+                population: "4,169,794",
+                landmark: "Ujjayanta Palace",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-8p_7h_6v_5k_4j_3d_2g_1f"
+            },
+            {
+                name: "Uttar Pradesh",
+                capital: "Lucknow",
+                population: "241,066,874",
+                landmark: "Taj Mahal",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_1x_2y_3z_4a_5b_6c_7d"
+            },
+            {
+                name: "Uttarakhand",
+                capital: "Dehradun",
+                population: "11,819,000",
+                landmark: "Valley of Flowers National Park",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_2u_3x_4y_5z_6a_7b_8c"
+            },
+            {
+                name: "West Bengal",
+                capital: "Kolkata",
+                population: "101,000,000",
+                landmark: "Victoria Memorial",
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-2w-3x-4y-5z-6a-7b-8c"
+            }
+        ];
+
+        function createDistrictCard(district) {
+            const card = document.createElement('div');
+            card.className = 'district-card';
+            
+            const img = document.createElement('img');
+            img.className = 'district-image';
+            img.alt = district.name;
+            img.loading = 'lazy';
+            img.src = district.imageUrl;
+            
+            img.onerror = () => {
+                img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZTBmMWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJcIkFyaWFsXCIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiM3Nzc3NzkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+PC9zdmc+';
+            };
+            
+            const info = document.createElement('div');
+            info.className = 'district-info';
+            
+            const name = document.createElement('div');
+            name.className = 'district-name';
+            name.textContent = district.name;
+            
+            const landmark = document.createElement('div');
+            landmark.style.cssText = 'font-size: 0.8rem; color: #888; margin-bottom: 5px; font-style: italic;';
+            landmark.textContent = district.landmark;
+            
+            const population = document.createElement('div');
+            population.className = 'district-population';
+            population.textContent = `Population: ${district.population}`;
+            
+            info.appendChild(name);
+            info.appendChild(landmark);
+            info.appendChild(population);
+            card.appendChild(img);
+            card.appendChild(info);
+            
+            return card;
+        }
+
+        function createStateSection(title, districts) {
+            const section = document.createElement('div');
+            section.className = 'state-section';
+            
+            const stateTitle = document.createElement('h2');
+            stateTitle.className = 'state-title';
+            stateTitle.textContent = title;
+            
+            const grid = document.createElement('div');
+            grid.className = 'districts-grid';
+            
+            districts.forEach(district => {
+                const card = createDistrictCard(district);
+                grid.appendChild(card);
+            });
+            
+            section.appendChild(stateTitle);
+            section.appendChild(grid);
+            
+            return section;
+        }
+
+        function loadStates() {
+            const content = document.getElementById('content');
+            const loading = document.getElementById('loading');
+            
+            setTimeout(() => {
+                const statesSection = createStateSection('🌾 All Indian States', indianStates);
+                content.appendChild(statesSection);
+                
+                loading.style.display = 'none';
+                content.style.display = 'block';
+            }, 500);
+        }
+
+        window.addEventListener('DOMContentLoaded', loadStates);
+    </script>
+</body>
+</html>
